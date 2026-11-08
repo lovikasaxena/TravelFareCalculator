@@ -13,13 +13,21 @@ The application uses the Java standard library. JUnit 5 is included only for aut
 
 ## Build and test
 
-Import the project as a Gradle project in IntelliJ. To run the current fare-calculator test harness from Gradle, use:
+Import the project as a Gradle project in IntelliJ. Run the test suite with:
 
 ```
 ./gradlew check
 ```
 
 The `check` task compiles the application and runs the JUnit test suite.
+
+Run the application with an input and output file path:
+
+```
+./gradlew run --args="example/taps.csv build/trips.csv"
+```
+
+The required example input and its generated output are in [`example/`](example/).
 
 ## Confirmed requirements from the brief
 
@@ -36,12 +44,12 @@ The `check` task compiles the application and runs the JUnit test suite.
 - When a second tap-on arrives for an active matching key, create an `INCOMPLETE` trip from the earlier tap-on and start a new trip from the later tap-on.
 - Order generated trips by tap-on time, then by tap ID when times are equal.
 - Parse and write date-times as `dd-MM-yyyy HH:mm:ss`. Treat input values as UTC, without time-zone conversion.
+- Read simple CSV values without embedded commas or quotation marks.
+- For an incomplete trip, write empty `Finished` and `ToStopId` fields and set `DurationSecs` to `0`.
 
-## Planned delivery
+## Included deliverables
 
-1. Domain models and fare calculation.
-2. Tap matching and trip creation.
-3. CSV input, output, and command-line application.
-4. Test harness and the required example output.
-
-Run instructions will be added with the command-line application.
+- Domain models, fare calculation, and tap matching.
+- CSV input and output with a command-line application.
+- JUnit tests for fares, matching, CSV conversion, and the complete example.
+- The required example input and output files.
