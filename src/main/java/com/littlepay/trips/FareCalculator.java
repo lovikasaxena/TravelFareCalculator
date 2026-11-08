@@ -15,7 +15,7 @@ public final class FareCalculator {
 
         Integer fare = FARES.get(StopPair.between(fromStopId, toStopId));
         if (fare == null) {
-            throw new IllegalArgumentException("No fare is configured for the requested stops");
+            throw new UnknownFareException("No fare is configured between " + fromStopId + " and " + toStopId);
         }
         return fare;
     }
@@ -25,7 +25,7 @@ public final class FareCalculator {
                 .filter(entry -> entry.getKey().includes(fromStopId))
                 .mapToInt(Map.Entry::getValue)
                 .max()
-                .orElseThrow(() -> new IllegalArgumentException("No fare is configured for the requested stop"));
+                .orElseThrow(() -> new UnknownFareException("No fare is configured from " + fromStopId));
     }
 
     private record StopPair(String firstStopId, String secondStopId) {

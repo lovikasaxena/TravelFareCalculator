@@ -3,6 +3,7 @@ package com.littlepay.trips;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class FareCalculatorTest {
     private final FareCalculator fareCalculator = new FareCalculator();
@@ -65,5 +66,23 @@ class FareCalculatorTest {
     @Test
     void charges730CentsForAnIncompleteTripFromStop3() {
         assertEquals(730, fareCalculator.maximumChargeFrom("Stop3"));
+    }
+
+    @Test
+    void reportsTheStopsWhenACompletedTripHasNoConfiguredFare() {
+        UnknownFareException exception = assertThrows(
+                UnknownFareException.class,
+                () -> fareCalculator.chargeFor("Stop1", "Stop4"));
+
+        assertEquals("No fare is configured between Stop1 and Stop4", exception.getMessage());
+    }
+
+    @Test
+    void reportsTheStopWhenAnIncompleteTripHasNoConfiguredFare() {
+        UnknownFareException exception = assertThrows(
+                UnknownFareException.class,
+                () -> fareCalculator.maximumChargeFrom("Stop4"));
+
+        assertEquals("No fare is configured from Stop4", exception.getMessage());
     }
 }
