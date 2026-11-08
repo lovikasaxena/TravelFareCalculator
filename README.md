@@ -1,4 +1,4 @@
-# LittlePay coding exercise
+# Travel Fare Calculator
 
 A small Java application that turns bus-card tap events into charged trips.
 
