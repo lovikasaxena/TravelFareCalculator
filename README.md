@@ -11,15 +11,22 @@ src/test/java/com/littlepay/trips/  Dependency-free test harness
 
 The project will use only the Java standard library. This keeps the solution easy to run and keeps the business rules visible in the code.
 
-## Assumptions
+## Confirmed requirements from the brief
 
-- The input CSV has the columns and valid values described in the exercise.
-- Taps are processed in timestamp order, even if the input lines are not already ordered.
-- **Pending confirmation:** a trip may be matched by PAN, company, and bus. The exercise does not specify the matching key, so this behaviour will not be implemented until it is confirmed.
-- There is no more than one active tap-on for a PAN, company, and bus at a time.
-- An unmatched tap-on creates an `INCOMPLETE` trip. An unmatched tap-off is ignored because it has no start from which to create a trip.
-- Fares apply in either direction. Money is stored in cents and formatted as dollars only when writing the output CSV.
-- The supplied date-time values represent UTC and use `dd-MM-yyyy HH:mm:ss`.
+- The input CSV is well formed and has all required data.
+- Fares apply in either direction.
+- A missing tap-off produces an incomplete trip charged at the highest fare from the tap-on stop.
+- A tap-on and tap-off at the same stop produces a cancelled trip with no charge.
+
+## Decisions awaiting confirmation
+
+No implementation assumptions have been approved yet. The following questions must be resolved before tap matching is implemented:
+
+- Should taps be matched by PAN alone, or by PAN together with company and bus?
+- Should input taps be sorted by timestamp before matching?
+- How should an unmatched tap-off be represented, if at all?
+- How should a second tap-on be handled when an earlier tap-on for the same matching key is still open?
+- Is `dd-MM-yyyy HH:mm:ss` the required UTC date-time format for all input and output files?
 
 ## Planned delivery
 
