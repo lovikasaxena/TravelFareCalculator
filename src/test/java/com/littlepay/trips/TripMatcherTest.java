@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TripMatcherTest {
     private static final LocalDateTime START_TIME = LocalDateTime.of(2023, 1, 22, 8, 0);
@@ -92,6 +93,18 @@ class TripMatcherTest {
         assertEquals(
                 List.of(incompleteTrip(firstTapOn, 730), completedTrip(secondTapOn, tapOff, 550)),
                 tripMatcher.createTrips(List.of(tapOff, secondTapOn, firstTapOn)));
+    }
+
+    @Test
+    void rejectsDuplicateTapIdsAtTheSameTime() {
+        Tap firstTap = tap(1, 0, TapType.ON, "Stop1", "Bus1", "Pan1");
+        Tap duplicateTap = tap(1, 0, TapType.ON, "Stop2", "Bus1", "Pan2");
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> tripMatcher.createTrips(List.of(firstTap, duplicateTap)));
+
+        assertEquals("Duplicate tap ID: 1", exception.getMessage());
     }
 
     @Test

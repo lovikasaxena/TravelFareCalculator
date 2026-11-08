@@ -3,9 +3,11 @@ package com.littlepay.trips;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 public final class TripMatcher {
     private final FareCalculator fareCalculator;
@@ -15,6 +17,8 @@ public final class TripMatcher {
     }
 
     public List<Trip> createTrips(List<Tap> taps) {
+        validateUniqueTapIds(taps);
+
         Map<TripKey, Tap> openTaps = new HashMap<>();
         List<Trip> trips = new ArrayList<>();
 
@@ -28,6 +32,15 @@ public final class TripMatcher {
                 .sorted(Comparator.comparing((Trip trip) -> trip.tapOn().dateTimeUtc())
                         .thenComparing(trip -> trip.tapOn().id()))
                 .toList();
+    }
+
+    private void validateUniqueTapIds(List<Tap> taps) {
+        Set<Long> tapIds = new HashSet<>();
+        for (Tap tap : taps) {
+            if (!tapIds.add(tap.id())) {
+                throw new IllegalArgumentException("Duplicate tap ID: " + tap.id());
+            }
+        }
     }
 
     private void processTap(Tap tap, Map<TripKey, Tap> openTaps, List<Trip> trips) {
