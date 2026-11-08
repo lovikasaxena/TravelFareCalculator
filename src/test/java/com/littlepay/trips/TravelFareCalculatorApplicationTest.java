@@ -14,11 +14,11 @@ class TravelFareCalculatorApplicationTest {
 
     @Test
     void createsTheExpectedTripsForTheExampleInput() throws Exception {
-        Path inputFile = Path.of("example/taps.csv");
+        Path inputFile = Path.of("examples/taps.csv");
         Path outputFile = temporaryDirectory.resolve("trips.csv");
 
         TravelFareCalculatorApplication.main(new String[]{inputFile.toString(), outputFile.toString()});
 
-        assertEquals(Files.readString(Path.of("example/trips.csv")), Files.readString(outputFile));
+        assertEquals(Files.readString(Path.of("examples/trips.csv")), Files.readString(outputFile));
     }
 }

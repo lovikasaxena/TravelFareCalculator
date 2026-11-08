@@ -24,10 +24,10 @@ The `check` task compiles the application and runs the JUnit test suite.
 Run the application with an input and output file path:
 
 ```
-./gradlew run --args="example/taps.csv build/trips.csv"
+./gradlew run --args="examples/taps.csv build/trips.csv"
 ```
 
-The required example input and its generated output are in [`example/`](example/).
+The required example input and its generated output are in [`examples/`](examples/).
 
 ## Confirmed requirements from the brief
 
