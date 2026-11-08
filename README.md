@@ -38,6 +38,7 @@ The required example input and its generated output are in [`examples/`](example
 
 ## Assumptions / Implementation decisions
 
+- The input CSV format is valid: the expected header and seven columns are present, required values are populated, and dates, tap types, and stop IDs use the expected values. Duplicate tap IDs are explicitly rejected.
 - Match taps using PAN, CompanyId, and BusID. This prevents taps from separate buses or companies being paired for the same card.
 - Sort input by `DateTimeUTC`, then by ID when timestamps are equal.
 - Ignore an unmatched tap-off because it has no corresponding start or fare basis.
