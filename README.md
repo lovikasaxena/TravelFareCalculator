@@ -18,15 +18,13 @@ The project will use only the Java standard library. This keeps the solution eas
 - A missing tap-off produces an incomplete trip charged at the highest fare from the tap-on stop.
 - A tap-on and tap-off at the same stop produces a cancelled trip with no charge.
 
-## Decisions awaiting confirmation
+## Assumptions / Implementation decisions
 
-No implementation assumptions have been approved yet. The following questions must be resolved before tap matching is implemented:
-
-- Should taps be matched by PAN alone, or by PAN together with company and bus?
-- Should input taps be sorted by timestamp before matching?
-- How should an unmatched tap-off be represented, if at all?
-- How should a second tap-on be handled when an earlier tap-on for the same matching key is still open?
-- Is `dd-MM-yyyy HH:mm:ss` the required UTC date-time format for all input and output files?
+- Match taps using PAN, CompanyId, and BusID. This prevents taps from separate buses or companies being paired for the same card.
+- Sort input by `DateTimeUTC`, then by ID when timestamps are equal.
+- Ignore an unmatched tap-off because it has no corresponding start or fare basis.
+- When a second tap-on arrives for an active matching key, create an `INCOMPLETE` trip from the earlier tap-on and start a new trip from the later tap-on.
+- Parse and write date-times as `dd-MM-yyyy HH:mm:ss`. Treat input values as UTC, without time-zone conversion.
 
 ## Planned delivery
 
