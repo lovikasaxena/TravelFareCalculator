@@ -54,6 +54,17 @@ class TripMatcherTest {
     }
 
     @Test
+    void doesNotMatchTapsFromDifferentCompanies() {
+        Tap firstTapOn = tap(1, 0, TapType.ON, "Stop3", "Company1", "Bus1", "Pan1");
+        Tap secondTapOn = tap(2, 5, TapType.ON, "Stop1", "Company2", "Bus1", "Pan1");
+        Tap tapOff = tap(3, 10, TapType.OFF, "Stop1", "Company2", "Bus1", "Pan1");
+
+        assertEquals(
+                List.of(incompleteTrip(firstTapOn, 730), cancelledTrip(secondTapOn, tapOff)),
+                tripMatcher.createTrips(List.of(firstTapOn, secondTapOn, tapOff)));
+    }
+
+    @Test
     void closesThePreviousTripWhenASecondTapOnArrives() {
         Tap firstTapOn = tap(1, 0, TapType.ON, "Stop1", "Bus1", "Pan1");
         Tap secondTapOn = tap(2, 5, TapType.ON, "Stop2", "Bus1", "Pan1");
@@ -73,6 +84,17 @@ class TripMatcherTest {
     }
 
     @Test
+    void usesTapIdToOrderTapsWithTheSameTime() {
+        Tap firstTapOn = tap(1, 0, TapType.ON, "Stop1", "Bus1", "Pan1");
+        Tap secondTapOn = tap(2, 0, TapType.ON, "Stop2", "Bus1", "Pan1");
+        Tap tapOff = tap(3, 5, TapType.OFF, "Stop3", "Bus1", "Pan1");
+
+        assertEquals(
+                List.of(incompleteTrip(firstTapOn, 730), completedTrip(secondTapOn, tapOff, 550)),
+                tripMatcher.createTrips(List.of(tapOff, secondTapOn, firstTapOn)));
+    }
+
+    @Test
     void ordersTripsByTapOnTimeThenTapId() {
         Tap laterTapOn = tap(2, 10, TapType.ON, "Stop2", "Bus1", "Pan2");
         Tap earlierTapOn = tap(1, 0, TapType.ON, "Stop1", "Bus1", "Pan1");
@@ -85,7 +107,11 @@ class TripMatcherTest {
     }
 
     private Tap tap(long id, int minute, TapType type, String stopId, String busId, String pan) {
-        return new Tap(id, START_TIME.plusMinutes(minute), type, stopId, "Company1", busId, pan);
+        return tap(id, minute, type, stopId, "Company1", busId, pan);
+    }
+
+    private Tap tap(long id, int minute, TapType type, String stopId, String companyId, String busId, String pan) {
+        return new Tap(id, START_TIME.plusMinutes(minute), type, stopId, companyId, busId, pan);
     }
 
     private Trip completedTrip(Tap tapOn, Tap tapOff, int chargeInCents) {
