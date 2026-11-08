@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.littlepay'
+version = '1.0-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.register('runFareCalculatorTest', JavaExec) {
+    group = 'verification'
+    description = 'Runs the dependency-free fare calculator test harness.'
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.littlepay.trips.FareCalculatorTest'
+}
+
+tasks.named('test') {
+    failOnNoDiscoveredTests = false
+}
+
+tasks.named('check') {
+    dependsOn(tasks.named('runFareCalculatorTest'))
+}

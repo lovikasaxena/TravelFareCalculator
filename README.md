@@ -11,6 +11,16 @@ src/test/java/com/littlepay/trips/  Dependency-free test harness
 
 The project will use only the Java standard library. This keeps the solution easy to run and keeps the business rules visible in the code.
 
+## Build and test
+
+Import the project as a Gradle project in IntelliJ. To run the current fare-calculator test harness from Gradle, use:
+
+```
+./gradlew check
+```
+
+The `check` task compiles the application and runs `FareCalculatorTest` through the `runFareCalculatorTest` task.
+
 ## Confirmed requirements from the brief
 
 - The input CSV is well formed and has all required data.
