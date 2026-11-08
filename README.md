@@ -9,7 +9,7 @@ src/main/java/com/littlepay/trips/  Application source
 src/test/java/com/littlepay/trips/  Dependency-free test harness
 ```
 
-The project will use only the Java standard library. This keeps the solution easy to run and keeps the business rules visible in the code.
+The application uses the Java standard library. JUnit 5 is included only for automated tests.
 
 ## Build and test
 
@@ -19,7 +19,7 @@ Import the project as a Gradle project in IntelliJ. To run the current fare-calc
 ./gradlew check
 ```
 
-The `check` task compiles the application and runs `FareCalculatorTest` through the `runFareCalculatorTest` task.
+The `check` task compiles the application and runs the JUnit test suite.
 
 ## Confirmed requirements from the brief
 
