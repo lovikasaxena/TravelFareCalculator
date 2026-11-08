@@ -6,7 +6,7 @@ A small Java application that turns bus-card tap events into charged trips.
 
 ```
 src/main/java/com/littlepay/trips/  Application source
-src/test/java/com/littlepay/trips/  Dependency-free test harness
+src/test/java/com/littlepay/trips/  JUnit tests
 ```
 
 The application uses the Java standard library. JUnit 5 is included only for automated tests.
@@ -34,6 +34,7 @@ The `check` task compiles the application and runs the JUnit test suite.
 - Sort input by `DateTimeUTC`, then by ID when timestamps are equal.
 - Ignore an unmatched tap-off because it has no corresponding start or fare basis.
 - When a second tap-on arrives for an active matching key, create an `INCOMPLETE` trip from the earlier tap-on and start a new trip from the later tap-on.
+- Order generated trips by tap-on time, then by tap ID when times are equal.
 - Parse and write date-times as `dd-MM-yyyy HH:mm:ss`. Treat input values as UTC, without time-zone conversion.
 
 ## Planned delivery
