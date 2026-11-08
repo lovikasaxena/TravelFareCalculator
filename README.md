@@ -53,3 +53,8 @@ The required example input and its generated output are in [`example/`](example/
 - CSV input and output with a command-line application.
 - JUnit tests for fares, matching, CSV conversion, and the complete example.
 - The required example input and output files.
+
+## Out of scope
+
+- Status calculation beyond the exercise definitions of `COMPLETED`, `INCOMPLETE`, and `CANCELLED`. The current fare table has no zero-priced route between different stops, so a zero charge correctly represents a cancelled trip.
+- Operational rules such as maximum journey durations, fare caps, transfers, and multi-bus journeys.
